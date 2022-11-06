@@ -26,8 +26,12 @@ from posawesome.posawesome.doctype.pos_coupon.pos_coupon import check_coupon_cod
 from posawesome.posawesome.doctype.delivery_charges.delivery_charges import (
     get_applicable_delivery_charges as _get_applicable_delivery_charges,
 )
-
-
+@frappe.whitelist
+def get():
+	return "hello"
+@frappe.whitelist()
+def get_opening_dialog_data1():
+    return "w"
 @frappe.whitelist()
 def get_opening_dialog_data():
     data = {}
@@ -313,7 +317,7 @@ def get_customer_names(pos_profile):
     condition += get_customer_group_condition(pos_profile)
     customers = frappe.db.sql(
         """
-        SELECT name, mobile_no, email_id, tax_id, customer_name, primary_address
+        SELECT name, mobile_no, email_id, tax_id, customer_name, primary_address,customer_id
         FROM `tabCustomer`
         WHERE {0}
         ORDER by name
