@@ -318,40 +318,43 @@ export default {
       this.qty = 1;
       this.$refs.debounce_search.focus();
     },
-    get_item_qty(first_search) {
-      let scal_qty = Math.abs(this.qty);
-      if (first_search.startsWith(this.pos_profile.posa_scale_barcode_start)) {
-        let pesokg1 = first_search.substr(7, 5);
-        let pesokg;
-        if (pesokg1.startsWith('0000')) {
-          pesokg = '0.00' + pesokg1.substr(4);
-        } else if (pesokg1.startsWith('000')) {
-          pesokg = '0.0' + pesokg1.substr(3);
-        } else if (pesokg1.startsWith('00')) {
-          pesokg = '0.' + pesokg1.substr(2);
-        } else if (pesokg1.startsWith('0')) {
-          pesokg =
-            pesokg1.substr(1, 1) + '.' + pesokg1.substr(2, pesokg1.length);
-        } else if (!pesokg1.startsWith('0')) {
-          pesokg =
-            pesokg1.substr(0, 2) + '.' + pesokg1.substr(2, pesokg1.length);
+       get_item_qty: function get_item_qty(first_search) {
+        var scal_qty = Math.abs(this.qty);
+        if (first_search.startsWith(this.pos_profile.posa_scale_barcode_start)&&
+        first_search.startsWith('1')  || first_search.startsWith('2')) {
+          var pesokg1 = first_search.substr(7, 6);
+          var pesokg;
+          if (pesokg1.startsWith('0000')) {
+            pesokg = '0.00' + pesokg1.substr(4);
+          } else if (pesokg1.startsWith('000')) {
+            pesokg = '0.0' + pesokg1.substr(3);
+          } else if (pesokg1.startsWith('00')) {
+            pesokg = '0.' + pesokg1.substr(2);
+          } else if (pesokg1.startsWith('0')) {
+            pesokg =
+              pesokg1.substr(1, 1) + '.' + pesokg1.substr(2, pesokg1.length);
+          } else if (!pesokg1.startsWith('0')) {
+            pesokg =
+              pesokg1.substr(0, 2) + '.' + pesokg1.substr(2, pesokg1.length);
+          }
+          scal_qty = pesokg;
         }
-        scal_qty = pesokg;
-      }
-      return scal_qty;
-    },
-    get_search(first_search) {
-      let search_term = '';
-      if (
-        first_search &&
-        first_search.startsWith(this.pos_profile.posa_scale_barcode_start)
-      ) {
-        search_term = first_search.substr(0, 7);
-      } else {
-        search_term = first_search;
-      }
-      return search_term;
-    },
+        return scal_qty;
+      },
+      get_search: function get_search(first_search) {
+        var search_term = '';
+        if(this.first_search === null){} else 
+
+        if (
+          first_search &&
+          first_search.startsWith('1')  || first_search.startsWith('2') 
+        ) {
+          search_term = first_search.substr(1, 6);
+        } else {
+          search_term = first_search;
+        }
+        return search_term;
+      },
     esc_event() {
       this.search = null;
       this.first_search = null;
